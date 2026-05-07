@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.5.11716.220
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3DA99C4E-89E3-4049-9C22-0A7EC60D83D8}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibHac", "LibHac\LibHac.csproj", "{5FA9DBB5-A2F3-7079-1C4B-73BBFB08F601}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSW.Core", "NSW.Core\NSW.Core.csproj", "{85602060-EB62-166C-DC43-BA0710464B8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSW.Avalonia", "NSW.Avalonia\NSW.Avalonia.csproj", "{006B423E-E00D-810D-F813-CF7111F4A5DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSW.Utils", "NSW.Utils\NSW.Utils.csproj", "{B89012C5-41A8-55F0-C656-5A0B5B8289E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSW.M3.Avalonia", "NSW.M3.Avalonia\NSW.M3.Avalonia.csproj", "{0D9AD9BC-11A4-B597-8DE7-DDC99FFCC841}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSW.M3.Avalonia.Desktop", "NSW.M3.Avalonia.Desktop\NSW.M3.Avalonia.Desktop.csproj", "{3666D6A9-FF8D-A2A4-A32D-A45D44A18320}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5FA9DBB5-A2F3-7079-1C4B-73BBFB08F601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FA9DBB5-A2F3-7079-1C4B-73BBFB08F601}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FA9DBB5-A2F3-7079-1C4B-73BBFB08F601}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FA9DBB5-A2F3-7079-1C4B-73BBFB08F601}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85602060-EB62-166C-DC43-BA0710464B8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85602060-EB62-166C-DC43-BA0710464B8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85602060-EB62-166C-DC43-BA0710464B8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85602060-EB62-166C-DC43-BA0710464B8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{006B423E-E00D-810D-F813-CF7111F4A5DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{006B423E-E00D-810D-F813-CF7111F4A5DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{006B423E-E00D-810D-F813-CF7111F4A5DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{006B423E-E00D-810D-F813-CF7111F4A5DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B89012C5-41A8-55F0-C656-5A0B5B8289E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B89012C5-41A8-55F0-C656-5A0B5B8289E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B89012C5-41A8-55F0-C656-5A0B5B8289E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B89012C5-41A8-55F0-C656-5A0B5B8289E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D9AD9BC-11A4-B597-8DE7-DDC99FFCC841}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D9AD9BC-11A4-B597-8DE7-DDC99FFCC841}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D9AD9BC-11A4-B597-8DE7-DDC99FFCC841}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D9AD9BC-11A4-B597-8DE7-DDC99FFCC841}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3666D6A9-FF8D-A2A4-A32D-A45D44A18320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3666D6A9-FF8D-A2A4-A32D-A45D44A18320}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3666D6A9-FF8D-A2A4-A32D-A45D44A18320}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3666D6A9-FF8D-A2A4-A32D-A45D44A18320}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {83CB65B8-011F-4ED7-BCD3-A6CFA935EF7E}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,162 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ui="clr-namespace:NSW.Avalonia.UI;assembly=NSW.Avalonia"
+             xmlns:l="clr-namespace:NSW.Core.Properties;assembly=NSW.Core"
+			 xmlns:vm="clr-namespace:NSW.M3.Avalonia.ViewModels"
+             xmlns:conv="clr-namespace:NSW.Avalonia.Converters;assembly=NSW.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="720"
+             x:Class="NSW.M3.Avalonia.Views.MainView"
+			 x:DataType="vm:MainViewModel"
+             FontFamily="Consolas">
+
+	<UserControl.Resources>
+		<conv:LevelToColorConverter x:Key="LevelToColorConverter"/>
+	</UserControl.Resources>
+
+	<UserControl.Styles>
+
+        <Style Selector="ToggleButton#tbValidation:checked">
+            <Setter Property="Background" Value="#334CAF50"/>
+            <Setter Property="BorderBrush" Value="#4CAF50"/>
+        </Style>
+
+        <Style Selector="ToggleButton#tbValidation:checked Image#imgValidation">
+            <Setter Property="Source" Value="avares://NSW.Avalonia/Assets/Images/Checked.png"/>
+        </Style>
+
+        <Style Selector="ToggleButton#tbValidation:not(:checked) Image#imgValidation">
+            <Setter Property="Source" Value="avares://NSW.Avalonia/Assets/Images/Unchecked.png"/>
+        </Style>
+
+    </UserControl.Styles>
+
+	<Grid RowDefinitions="*">
+		<Grid Grid.Row="0" Margin="15,5,15,15">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" MaxHeight="270"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
+
+			<ui:FileManagerControl x:Name="fileMgr" Grid.Row="0" Height="250" Margin="0,0,0,16"/>
+
+			<Grid Grid.Row="1" Margin="0,0,0,10" ColumnDefinitions="Auto, 100, Auto, Auto, Auto, 12, *, 10, *">
+
+				<Image Grid.Column="0"
+					   Source="avares://NSW.Avalonia/Assets/Images/Level.png"
+					   Stretch="Uniform" Width="32" Margin="0,0,8,0"
+					   ToolTip.Tip="{x:Static l:Resources.ToolTip_CompressLevel}"
+					   RenderOptions.BitmapInterpolationMode="HighQuality"/>
+
+				<Slider Grid.Column="1"
+						x:Name="sliderCompression"
+						Minimum="3" Maximum="18"
+						Value="{Binding CompressLevel}"
+						SmallChange="1" LargeChange="1"
+						IsSnapToTickEnabled="True"
+						TickFrequency="1"
+						ToolTip.Tip="{x:Static l:Resources.ToolTip_CompressLevel}"
+						VerticalAlignment="Center"/>
+			
+				<TextBlock Grid.Column="2" 
+						   Text="{Binding #sliderCompression.Value}" 
+						   Foreground="{Binding #sliderCompression.Value, Converter={StaticResource LevelToColorConverter}}"
+						   FontWeight="Bold" 
+						   VerticalAlignment="Center" 
+						   Width="25" 
+						   Margin="0,0,0,0"
+						   ToolTip.Tip="{x:Static l:Resources.ToolTip_CompressLevel}"
+						   TextAlignment="Center"/>
+				
+				<Border Grid.Column="3"
+							Background="#12FFFFFF"
+							BorderBrush="#30FFFFFF"
+							BorderThickness="1"
+							CornerRadius="6"
+							Padding="6,0"
+							Margin="8,0"
+							Height="44"
+							VerticalAlignment="Stretch">
+					<StackPanel Orientation="Horizontal" Spacing="2" VerticalAlignment="Center">
+						<RadioButton x:Name="rbBlock"
+									 Content="Block"
+									 GroupName="BlockMode"
+									 IsChecked="{Binding UseBlockMode}"
+									 FontSize="11"
+									 ToolTip.Tip="{x:Static l:Resources.ToolTip_BlockMode}"
+									 VerticalAlignment="Center"/>
+						<RadioButton x:Name="rbBlockless"
+									 Content="Blockless"
+									 GroupName="BlockMode"
+									 IsChecked="{Binding UseBlocklessMode}"
+									 FontSize="11"
+									 ToolTip.Tip="{x:Static l:Resources.ToolTip_BlocklessMode}"
+									 Margin="5,0,0,0"
+									 VerticalAlignment="Center"/>
+					</StackPanel>
+				</Border>
+				
+				<ToggleButton Grid.Column="4"
+							  x:Name="tbValidation"
+							  IsChecked="{Binding IsValidationEnabled}"
+							  Height="44" Padding="10,0"
+							  Background="#12FFFFFF"
+							  BorderBrush="#30FFFFFF"
+							  BorderThickness="1"
+							  CornerRadius="6"
+							  ToolTip.Tip="{x:Static l:Resources.ToolTip_ValidateCompress}"
+							  VerticalAlignment="Stretch">
+
+					<StackPanel Orientation="Horizontal">
+						<Image x:Name="imgValidation"
+							   Width="20" Height="20" Margin="0,0,10,0"/>
+						<TextBlock Text="{x:Static l:Resources.Button_Validate}" VerticalAlignment="Center" FontSize="12"/>
+					</StackPanel>
+				</ToggleButton>
+
+				<ui:IconButton Grid.Column="6" x:Name="btnStartCompress"
+							   DefaultText="{x:Static l:Resources.Button_StartCompress}"
+							   CancelText="{x:Static l:Resources.Button_Cancel}"
+							   DefaultIcon="avares://NSW.M3.Avalonia/Assets/Images/Compress.png"
+							   CancelIcon="avares://NSW.Avalonia/Assets/Images/Cancel.png"
+							   Click="BtnStartCompress_Click"
+							   HorizontalAlignment="Stretch"
+							   VerticalAlignment="Stretch"/>
+
+				<ui:IconButton Grid.Column="8" x:Name="btnStartDecompress"
+							   DefaultText="{x:Static l:Resources.Button_StartDecompress}"
+							   CancelText="{x:Static l:Resources.Button_Cancel}"
+							   DefaultIcon="avares://NSW.M3.Avalonia/Assets/Images/Decompress.png"
+							   CancelIcon="avares://NSW.Avalonia/Assets/Images/Cancel.png"
+							   Click="BtnStartDecompress_Click"
+							   HorizontalAlignment="Stretch"
+							   VerticalAlignment="Stretch"/>
+			</Grid>
+
+			<Grid Grid.Row="2" Margin="0,0,0,10" x:Name="progressArea" IsVisible="False">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+				<Grid Grid.Row="0" Margin="0,0,0,4" ColumnDefinitions="*, Auto, Auto">
+					<TextBlock Grid.Column="0" x:Name="progressLabel" Text="{x:Static l:Resources.Status_Processing}" FontSize="11" Foreground="#A0A0A0" VerticalAlignment="Center"/>
+					<TextBlock Grid.Column="1" x:Name="progressPercent" Margin="10,0,15,0" FontSize="11" Foreground="#4CAF50" VerticalAlignment="Center"/>
+					<StackPanel Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center">
+						<TextBlock x:Name="progressSpeed" Foreground="Gray" FontSize="11" Margin="0,0,10,0" VerticalAlignment="Center"/>
+						<TextBlock x:Name="progressTime" FontSize="11" Foreground="#4CAF50" VerticalAlignment="Center"/>
+					</StackPanel>
+				</Grid>
+				<ProgressBar Grid.Row="1" x:Name="progress" Minimum="0" Maximum="100" Height="4"/>
+			</Grid>
+
+			<Border Grid.Row="3" Background="#12FFFFFF" BorderBrush="#30FFFFFF" BorderThickness="1" CornerRadius="8" Padding="2">
+				<ScrollViewer x:Name="svLogBox" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+					<SelectableTextBlock x:Name="logBox" FontSize="11" Foreground="#C8C8C8" Background="Transparent" Padding="8,6" TextWrapping="Wrap"/> 
+				</ScrollViewer>
+			</Border>
+		</Grid>
+	</Grid>
+</UserControl>
