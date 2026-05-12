@@ -43,93 +43,27 @@
 
 			<ui:FileManagerControl x:Name="fileMgr" Grid.Row="0" Height="250" Margin="0,0,0,16"/>
 
-			<Grid Grid.Row="1" Margin="0,0,0,10" ColumnDefinitions="Auto, 100, Auto, Auto, Auto, 12, *, 10, *">
+			<Grid Grid.Row="1" Margin="0,0,0,10" ColumnDefinitions="Auto, 12, *, 10, *">
 
-				<Image Grid.Column="0"
-					   Source="avares://NSW.Avalonia/Assets/Images/Level.png"
-					   Stretch="Uniform" Width="32" Margin="0,0,8,0"
-					   ToolTip.Tip="{x:Static l:Resources.ToolTip_CompressLevel}"
-					   RenderOptions.BitmapInterpolationMode="HighQuality"/>
-
-				<Slider Grid.Column="1"
-						x:Name="sliderCompression"
-						Minimum="3" Maximum="18"
-						Value="{Binding CompressLevel}"
-						SmallChange="1" LargeChange="1"
-						IsSnapToTickEnabled="True"
-						TickFrequency="1"
-						ToolTip.Tip="{x:Static l:Resources.ToolTip_CompressLevel}"
-						VerticalAlignment="Center"/>
-			
-				<TextBlock Grid.Column="2" 
-						   Text="{Binding #sliderCompression.Value}" 
-						   Foreground="{Binding #sliderCompression.Value, Converter={StaticResource LevelToColorConverter}}"
-						   FontWeight="Bold" 
-						   VerticalAlignment="Center" 
-						   Width="25" 
-						   Margin="0,0,0,0"
-						   ToolTip.Tip="{x:Static l:Resources.ToolTip_CompressLevel}"
-						   TextAlignment="Center"/>
+				<Button x:Name="btnSettings" Width="32" Height="32" Background="Transparent" BorderThickness="0"
+						Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+						Click="BtnSettings_Click" ToolTip.Tip="{x:Static l:Resources.Button_Settings}">
+					<Image Source="avares://NSW.Avalonia/Assets/Images/Settings.png" Width="32" Height="32" Stretch="Fill" RenderOptions.BitmapInterpolationMode="HighQuality"/>
+				</Button>
 				
-				<Border Grid.Column="3"
-							Background="#12FFFFFF"
-							BorderBrush="#30FFFFFF"
-							BorderThickness="1"
-							CornerRadius="6"
-							Padding="6,0"
-							Margin="8,0"
-							Height="44"
-							VerticalAlignment="Stretch">
-					<StackPanel Orientation="Horizontal" Spacing="2" VerticalAlignment="Center">
-						<RadioButton x:Name="rbBlock"
-									 Content="Block"
-									 GroupName="BlockMode"
-									 IsChecked="{Binding UseBlockMode}"
-									 FontSize="11"
-									 ToolTip.Tip="{x:Static l:Resources.ToolTip_BlockMode}"
-									 VerticalAlignment="Center"/>
-						<RadioButton x:Name="rbBlockless"
-									 Content="Blockless"
-									 GroupName="BlockMode"
-									 IsChecked="{Binding UseBlocklessMode}"
-									 FontSize="11"
-									 ToolTip.Tip="{x:Static l:Resources.ToolTip_BlocklessMode}"
-									 Margin="5,0,0,0"
-									 VerticalAlignment="Center"/>
-					</StackPanel>
-				</Border>
-				
-				<ToggleButton Grid.Column="4"
-							  x:Name="tbValidation"
-							  IsChecked="{Binding IsValidationEnabled}"
-							  Height="44" Padding="10,0"
-							  Background="#12FFFFFF"
-							  BorderBrush="#30FFFFFF"
-							  BorderThickness="1"
-							  CornerRadius="6"
-							  ToolTip.Tip="{x:Static l:Resources.ToolTip_ValidateCompress}"
-							  VerticalAlignment="Stretch">
-
-					<StackPanel Orientation="Horizontal">
-						<Image x:Name="imgValidation"
-							   Width="20" Height="20" Margin="0,0,10,0"/>
-						<TextBlock Text="{x:Static l:Resources.Button_Validate}" VerticalAlignment="Center" FontSize="12"/>
-					</StackPanel>
-				</ToggleButton>
-
-				<ui:IconButton Grid.Column="6" x:Name="btnStartCompress"
+				<ui:IconButton Grid.Column="2" x:Name="btnStartCompress"
 							   DefaultText="{x:Static l:Resources.Button_StartCompress}"
 							   CancelText="{x:Static l:Resources.Button_Cancel}"
-							   DefaultIcon="avares://NSW.M3.Avalonia/Assets/Images/Compress.png"
+							   DefaultIcon="avares://NSW.Avalonia/Assets/Images/Compress.png"
 							   CancelIcon="avares://NSW.Avalonia/Assets/Images/Cancel.png"
 							   Click="BtnStartCompress_Click"
 							   HorizontalAlignment="Stretch"
 							   VerticalAlignment="Stretch"/>
 
-				<ui:IconButton Grid.Column="8" x:Name="btnStartDecompress"
+				<ui:IconButton Grid.Column="4" x:Name="btnStartDecompress"
 							   DefaultText="{x:Static l:Resources.Button_StartDecompress}"
 							   CancelText="{x:Static l:Resources.Button_Cancel}"
-							   DefaultIcon="avares://NSW.M3.Avalonia/Assets/Images/Decompress.png"
+							   DefaultIcon="avares://NSW.Avalonia/Assets/Images/Decompress.png"
 							   CancelIcon="avares://NSW.Avalonia/Assets/Images/Cancel.png"
 							   Click="BtnStartDecompress_Click"
 							   HorizontalAlignment="Stretch"

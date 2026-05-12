@@ -70,6 +70,13 @@ public partial class MainView : UserControl
 
     #region Event Hanlders
 
+    private async void BtnSettings_Click(object sender, global::Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        var window = new SettingsWindow(ViewModel);
+        await window.ShowDialog(TopLevel.GetTopLevel(this) as Window);
+        ViewModel.SaveConfig();
+    }    
+
     private async void BtnStartCompress_Click(object sender, global::Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (_cts != null && !_cts.IsCancellationRequested)
@@ -112,12 +119,13 @@ public partial class MainView : UserControl
         int compressLevel = (int)ViewModel.CompressLevel;
         bool isValidationEnabled = ViewModel.IsValidationEnabled;
         bool useBlockMode = ViewModel.UseBlockMode;
+        bool forceKeyGen0 = ViewModel.ForceKeyGen0;
 
         try
         {
             await Task.Run(async () =>
             {
-                var results = await NspCompressService.Compress(inputPaths, compressLevel, isValidationEnabled, useBlockMode, _progressReporter, Log, _cts.Token);
+                var results = await NspCompressService.Compress(inputPaths, compressLevel, isValidationEnabled, useBlockMode, forceKeyGen0, _progressReporter, Log, _cts.Token);
 
                 if (results != null && results.Count > 0)
                 {
@@ -181,11 +189,13 @@ public partial class MainView : UserControl
         await SetWorking(true, true);
         _totalSw.Restart();
 
+        bool forceKeyGen0 = ViewModel.ForceKeyGen0;
+
         try
         {
             await Task.Run(async () =>
             {
-                var results = await NspCompressService.Decompress(inputPaths, _progressReporter, Log, _cts.Token);
+                var results = await NspCompressService.Decompress(inputPaths, forceKeyGen0, _progressReporter, Log, _cts.Token);
 
                 if (results != null && results.Count > 0)
                 {
@@ -275,8 +285,6 @@ public partial class MainView : UserControl
             btnStartCompress.IsEnabled = !working || working && !isDecompress;
             btnStartDecompress.IsEnabled = !working || working && isDecompress;
             fileMgr.IsEnabled = !working;
-            sliderCompression.IsEnabled = !working;
-            tbValidation.IsEnabled = !working;
             progressArea.IsVisible = working;
         });
     }

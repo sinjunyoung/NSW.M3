@@ -13,7 +13,7 @@ public partial class App : Application
     {
         AvaloniaXamlLoader.Load(this);
 
-        //ltureInfo.CurrentUICulture = new CultureInfo("en-US");
+        //CultureInfo.CurrentUICulture = new CultureInfo("en-US");
         //CultureInfo.CurrentUICulture = new CultureInfo("ja-JP");
         //CultureInfo.CurrentUICulture = new CultureInfo("de-DE");
     }

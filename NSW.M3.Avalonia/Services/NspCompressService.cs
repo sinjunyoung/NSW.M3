@@ -24,13 +24,13 @@ namespace NSW.M3.Avalonia.Services;
 
 public static class NspCompressService
 {
-    public static async Task<List<string>> Compress(IReadOnlyList<string> inputPaths, int nczCompressionLevel, bool validation, bool useBlockMode, IProgress<ProgressInfo> progress, Action<string, LogLevel, string> log, CancellationToken ct = default)
-        => await ExecuteProcess(inputPaths, true, nczCompressionLevel, validation, useBlockMode, progress, log, ct);
+    public static async Task<List<string>> Compress(IReadOnlyList<string> inputPaths, int nczCompressionLevel, bool validation, bool useBlockMode, bool forceKeyGen0, IProgress<ProgressInfo> progress, Action<string, LogLevel, string> log, CancellationToken ct = default)
+        => await ExecuteProcess(inputPaths, true, nczCompressionLevel, validation, useBlockMode, forceKeyGen0, progress, log, ct);
 
-    public static async Task<List<string>> Decompress(IReadOnlyList<string> inputPaths, IProgress<ProgressInfo> progress, Action<string, LogLevel, string> log, CancellationToken ct = default) 
-        => await ExecuteProcess(inputPaths, false, 0, false, false, progress, log, ct);
+    public static async Task<List<string>> Decompress(IReadOnlyList<string> inputPaths, bool forceKeyGen0, IProgress<ProgressInfo> progress, Action<string, LogLevel, string> log, CancellationToken ct = default) 
+        => await ExecuteProcess(inputPaths, false, 0, false, false, forceKeyGen0, progress, log, ct);
 
-    private static async Task<List<string>> ExecuteProcess(IReadOnlyList<string> inputPaths, bool isCompressMode, int compressionLevel, bool validation, bool useBlockMode, IProgress<ProgressInfo> progress, Action<string, LogLevel, string> log, CancellationToken ct)
+    private static async Task<List<string>> ExecuteProcess(IReadOnlyList<string> inputPaths, bool isCompressMode, int compressionLevel, bool validation, bool useBlockMode, bool forceKeyGen0, IProgress<ProgressInfo> progress, Action<string, LogLevel, string> log, CancellationToken ct)
     {
         var ks = KeySetProvider.Instance.KeySet.Clone();
         var processedFiles = new List<string>();
@@ -46,7 +46,7 @@ public static class NspCompressService
 
                 log?.Invoke($"[{i + 1}/{inputPaths.Count}] {modeName} {Res.Log_ProcessStart}: {Path.GetFileName(path)}", LogLevel.Info, inputPaths[i]);
 
-                string resultPath = await RunCoreAsync(path, isCompressMode, compressionLevel, validation, useBlockMode, ks, progress, log, ct);
+                string resultPath = await RunCoreAsync(path, isCompressMode, compressionLevel, validation, useBlockMode, forceKeyGen0, ks, progress, log, ct);
 
                 if (!string.IsNullOrEmpty(resultPath))
                     processedFiles.Add(resultPath);
@@ -60,7 +60,7 @@ public static class NspCompressService
         return processedFiles;
     }
 
-    private static async Task<string> RunCoreAsync(string inputPath, bool isCompressMode, int compressionLevel, bool validation, bool useBlockMode, KeySet keySet, IProgress<ProgressInfo> progress, Action<string, LogLevel, string> log, CancellationToken ct)
+    private static async Task<string> RunCoreAsync(string inputPath, bool isCompressMode, int compressionLevel, bool validation, bool useBlockMode, bool forceKeyGen0, KeySet keySet, IProgress<ProgressInfo> progress, Action<string, LogLevel, string> log, CancellationToken ct)
     {
         var disposables = new List<IDisposable>();
         var converters = new Dictionary<string, NcaToNczConverter>(StringComparer.OrdinalIgnoreCase);
@@ -102,7 +102,14 @@ public static class NspCompressService
                 disposables.Add(currentStorage);
 
                 if (entryExt is ".tik" or ".cert")
+                {
+                    if (!forceKeyGen0)
+                    {
+                        var capturedStorage = currentStorage;
+                        fileEntries.Add((entryName, async (s, onRead) => await Common.CopyStreamAsync(capturedStorage.AsStream(), s, onRead, ct), size, entryName));
+                    }
                     continue;
+                }
 
                 if (entryExt is not ".nca" and not ".ncz")
                 {
@@ -142,7 +149,7 @@ public static class NspCompressService
 
                     fileEntries.Add((compName, async (s, onRead) =>
                     {
-                        var recryptedHeader = await NcaRecryptService.GetRecryptedHeaderAsync(capturedStorage, 0, keySet, ct);
+                        var recryptedHeader = await NcaRecryptService.GetRecryptedHeaderAsync(capturedStorage, forceKeyGen0 ? 0 : (int)nca.Header.KeyGeneration, keySet, ct);
                         using var headerStream = new MemoryStream(recryptedHeader);
                         await converter.ConvertAsync(headerStream, capturedStorage, s, useBlockMode, compressionLevel, onRead, ct);
                     }, size, label));
@@ -153,7 +160,7 @@ public static class NspCompressService
                     string statusLabel = isCompressMode ? Res.Log_StatusCopying : Res.Log_StatusDecompressing;
                     fileEntries.Add((ncaName, async (s, onRead) =>
                     {
-                        await NcaRecryptService.RecryptAsync(capturedStorage.AsStream(), s, 0, keySet, onRead, ct);
+                        await NcaRecryptService.RecryptAsync(capturedStorage.AsStream(), s, forceKeyGen0 ? 0 : (int)nca.Header.KeyGeneration, keySet, onRead, ct);
                     }, ncaSize, $"{label} [{statusLabel}]"));
                 }
             }
